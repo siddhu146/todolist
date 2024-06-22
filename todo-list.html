@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>Todo List</title>
+        <p style="font-size: 20px;">TO DO LIST</p>
+        <style>
+            .main{
+                display: flex;
+            }
+            .c3{
+                margin-left: 20px;
+                width: 100px;
+            }
+            .c2{
+                margin-left: 20px;
+            }
+            .task-button{
+                height: 30px;
+                border-width: 1px;
+                font-size: 16px;
+            }
+            .date-button{
+                height:30px;
+            }
+            .add-button{
+                background-color: rgb(38, 140, 38);
+                border-width: 1px;
+                color: white;
+                width: 100%;
+                height:34px;
+            }
+            .del-button{
+                background-color: rgb(165, 19, 19);
+                color: white;
+                width: 100%;
+                border-width: 1px;
+                height: 34px;
+            }
+            
+        </style>
+
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="c1"><!--For task input and task display-->
+                <input class="task-button" placeholder="enter task ...">
+                <div class="display-task"></div>
+            </div>
+    
+            <div class="c2"><!--For date input and date disply-->
+                <input class="date-button" type="date" placeholder="yyyy-mm-dd">
+                <div class="display-date"></div><!--Here we are using div because we can't keep one paragraph in another-->
+            </div>
+
+            <div class="c3" ><!--For add and delete buttons-->
+                <button class="add-button" onclick="check();">ADD</button>
+                <div class="delete"></div>
+            </div>
+        </div>
+        
+    </body>
+
+
+    <script>
+        let taskarray=['sid','duse'];
+        let datearray=['2000-19-12','2300-12-19'];
+        
+        function add()
+        {
+            let task=document.querySelector('.task-button');//for getting input from task button
+            let taskdate=document.querySelector('.date-button');//for getting inlut from date button
+            if(task.value==='')//checking whether the user has given input
+            {
+                return 0;
+            }
+            if(taskdate.value==='')//checking whether the user has given input
+            {
+                return 1;
+            }
+            else{
+                datearray.push(taskdate.value);//updating the datearray
+                taskdate.value='';//clearing the input
+                taskarray.push(task.value);//updating the taskarray
+                task.value='';//clearing the input
+            }
+            console.log(document.querySelectorAll('.del-button'));
+        }
+        function dis(){
+            let htmlt='';
+            for(let i=0;i<taskarray.length;i++)
+            {
+                htmlt+=`<p>${taskarray[i]}</p>`;
+            }
+            document.querySelector(`.display-task`).innerHTML=htmlt;
+            let htmld='';
+            let remt='';
+            for(let i=0;i<datearray.length;i++)
+            {
+                let rem=`<p>
+                            <button class="del-button">DELETE</button>
+                        </p>`;
+
+                htmld+=`<p>
+                            ${datearray[i]}
+                        </p>`;
+                        remt+=rem;
+            }
+            document.querySelector(`.display-date`).innerHTML=htmld;
+            document.querySelector(`.delete`).innerHTML=remt;
+
+            //As we are creating it in the dis() function we have to add event listner here, if we add this event listner outside the dis() we don't get our desired result as there is np button outside
+            console.log(document.querySelectorAll('.del-button'));//getting all the delete buttons as a list
+            document.querySelectorAll('.del-button').forEach((deleteButton,index)=>{
+            deleteButton.addEventListener('click',()=>{//adding event listeners for all the delete buttons
+                del(index);
+            });
+        });
+        }
+        function del(i){
+            taskarray.splice(i,1);
+            datearray.splice(i,1);
+            dis();
+        }
+        function check()
+        {
+            if(add()==0)
+            {
+                alert('PLEASE ENTER TASK');
+                return;
+            }
+            else if(add()==1)
+            {
+                alert('PLEASE ENTER DATE');
+                return;
+            }
+            else dis();
+
+        }
+
+    </script>
+</html>
